@@ -95,7 +95,8 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-
+	HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin); //Toggle the state of pin PC13
+	HAL_Delay(500);
   }
   /* USER CODE END 3 */
 
