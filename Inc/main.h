@@ -44,7 +44,11 @@
 #define LED_Pin GPIO_PIN_13
 #define LED_GPIO_Port GPIOC
 /* USER CODE BEGIN Private defines */
-
+void _main(void);
+void _Error_Handler(void);
+#ifdef USE_FULL_ASSERT
+void _assert_failed(uint8_t* file, uint32_t line);
+#endif
 /* USER CODE END Private defines */
 
 /**

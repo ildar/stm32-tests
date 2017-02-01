@@ -85,7 +85,7 @@ int main(void)
   MX_USB_PCD_Init();
 
   /* USER CODE BEGIN 2 */
-
+_main();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -256,10 +256,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler */
-  /* User can add his own implementation to report the HAL error return state */
-  while(1) 
-  {
-  }
+_Error_Handler();
   /* USER CODE END Error_Handler */ 
 }
 
@@ -275,8 +272,7 @@ void Error_Handler(void)
 void assert_failed(uint8_t* file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+_assert_failed(file, line);
   /* USER CODE END 6 */
 
 }
