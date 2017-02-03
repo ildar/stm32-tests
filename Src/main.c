@@ -280,7 +280,8 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin); //Toggle the state of pin PC13
+    osDelay(500);
   }
   /* USER CODE END 5 */ 
 }
