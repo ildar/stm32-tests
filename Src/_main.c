@@ -8,27 +8,27 @@ extern PCD_HandleTypeDef hpcd_USB_FS;
 
 static const char* STR_GREET1 = "\r\nHello, UART user!\r\n--\r\n";
 
+void print(char* s) { // blinks while printnig to UART
+	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+	HAL_UART_Transmit(&huart1, (uint8_t*) s, strlen(s), HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+}
+
 void _main(void)
 {
 	char c, buf[] = "[_]";
 
-	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-	HAL_UART_Transmit(&huart1, STR_GREET1, strlen(STR_GREET1), HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+	print(STR_GREET1);
 
 	while ( HAL_UART_Receive(&huart1, &c, 1, 500) ) {
-		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-		HAL_UART_Transmit(&huart1, ".", 1, HAL_MAX_DELAY);
-		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+		print(".");
 //		HAL_Delay(500);
 	}
-	HAL_UART_Transmit(&huart1, "\n\r", 2, HAL_MAX_DELAY);
+	print("\n\r");
 
 	while(1) {
 		while ( HAL_UART_Receive(&huart1, &buf[1], 1, 100) );
-		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-		HAL_UART_Transmit(&huart1, buf, 3, HAL_MAX_DELAY);
-		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+		print(buf);
 	}
 }
 /**
