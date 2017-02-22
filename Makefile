@@ -25,31 +25,30 @@ BUILD_DIR = build
 # source
 ######################################
 C_SOURCES = \
-  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c \
-  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c \
-  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c \
-  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c \
-  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c \
-  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c \
   Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c \
-  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pcd.c \
-  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pcd_ex.c \
-  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c \
-  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c \
-  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c \
   Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c \
   Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c \
   Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c \
+  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pcd.c \
+  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pcd_ex.c \
   Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_usb.c \
+  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c \
+  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c \
+  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c \
+  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c \
+  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c \
+  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c \
+  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c \
+  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c \
+  Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c \
+  Src/_main.c \
   Src/main.c \
-  Src/stm32f1xx_hal_msp.c \
-  Src/stm32f1xx_hal_timebase_TIM.c \
+  Src/system_stm32f1xx.c \
   Src/stm32f1xx_it.c \
-  Src/system_stm32f1xx.c  
+  Src/stm32f1xx_hal_msp.c \
+  Src/stm32f1xx_hal_timebase_TIM.c  
 ASM_SOURCES = \
-  Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/gcc/startup_stm32f103xb.s
-
-C_SOURCES +=   Src/_main.c \
+  startup/startup_stm32f103xb.s
 
 #######################################
 # binaries
@@ -70,11 +69,11 @@ AS_DEFS =
 C_DEFS = -D__weak="__attribute__((weak))" -D__packed="__attribute__((__packed__))" -DUSE_HAL_DRIVER -DSTM32F103xB
 # includes for gcc
 AS_INCLUDES =
-C_INCLUDES = -IDrivers/CMSIS/Device/ST/STM32F1xx/Include
-C_INCLUDES += -IDrivers/CMSIS/Include
+C_INCLUDES = -IInc
 C_INCLUDES += -IDrivers/STM32F1xx_HAL_Driver/Inc
 C_INCLUDES += -IDrivers/STM32F1xx_HAL_Driver/Inc/Legacy
-C_INCLUDES += -IInc
+C_INCLUDES += -IDrivers/CMSIS/Device/ST/STM32F1xx/Include
+C_INCLUDES += -IDrivers/CMSIS/Include
 # compile gcc flags
 ASFLAGS = -mthumb -mcpu=cortex-m3 $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 CFLAGS = -mthumb -mcpu=cortex-m3 $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
