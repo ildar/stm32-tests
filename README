@@ -1,0 +1,16 @@
+This is the unit test runner sample program.
+
+It uses embUnit as the xUnit framework and its internal tests as the tests to
+run.
+
+Building instructions:
+1. First build the embUnit static library for the target (*):
+	make CC=$PATH_TO_TOOLCHAIN/bin/arm-none-eabi-gcc \
+		AR=$PATH_TO_TOOLCHAIN/bin/arm-none-eabi-ar \
+		LIBS="-lc -lnosys" CFLAGS="-mthumb -mcpu=cortex-m3 -specs=nano.specs -DNO_STDIO_PRINTF"
+		
+2. After that build and link the firmware with the above:
+	make BUILD_DIR=/tmp/build/
+
+(*) That gonna work with my patch found at: https://github.com/ildar/embunit
+

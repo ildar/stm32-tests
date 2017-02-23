@@ -5,7 +5,7 @@
 ######################################
 # target
 ######################################
-TARGET = UartTest
+TARGET = embUnitTest
 
 ######################################
 # building variables
@@ -41,15 +41,26 @@ C_SOURCES = \
   Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c \
   Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c \
   Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c \
-  Src/_main.c \
-  Src/main.c \
-  Src/system_stm32f1xx.c \
-  Src/stm32f1xx_it.c \
-  Src/stm32f1xx_hal_msp.c \
-  Src/stm32f1xx_hal_timebase_TIM.c  
+
 ASM_SOURCES = \
   startup/startup_stm32f103xb.s
 
+C_SOURCES += \
+  Src/AllTests.c \
+  Src/assertTest.c \
+  Src/_main.c \
+  Src/main.c \
+  Src/MockTestCase.c \
+  Src/RepeatedTestTest.c \
+  Src/stdImplTest.c \
+  Src/stm32f1xx_hal_msp.c \
+  Src/stm32f1xx_hal_timebase_TIM.c \
+  Src/stm32f1xx_it.c \
+  Src/system_stm32f1xx.c \
+  Src/TestCallerTest.c \
+  Src/TestCaseTest.c \
+  Src/TestResultTest.c \
+  
 #######################################
 # binaries
 #######################################
@@ -69,7 +80,7 @@ AS_DEFS =
 C_DEFS = -D__weak="__attribute__((weak))" -D__packed="__attribute__((__packed__))" -DUSE_HAL_DRIVER -DSTM32F103xB
 # includes for gcc
 AS_INCLUDES =
-C_INCLUDES = -IInc
+C_INCLUDES = -IInc -I../local/include
 C_INCLUDES += -IDrivers/STM32F1xx_HAL_Driver/Inc
 C_INCLUDES += -IDrivers/STM32F1xx_HAL_Driver/Inc/Legacy
 C_INCLUDES += -IDrivers/CMSIS/Device/ST/STM32F1xx/Include
@@ -89,7 +100,7 @@ CFLAGS += -std=c99 -MD -MP -MF $(BUILD_DIR)/.dep/$(@F).d
 # link script
 LDSCRIPT = STM32F103C8Tx_FLASH.ld
 # libraries
-LIBS = -lc -lm -lnosys
+LIBS = -lc -lm -lnosys -L../local/lib -lembUnit
 LIBDIR =
 LDFLAGS = -mthumb -mcpu=cortex-m3 -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 

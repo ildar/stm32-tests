@@ -6,6 +6,8 @@
 extern UART_HandleTypeDef huart1;
 extern PCD_HandleTypeDef hpcd_USB_FS;
 
+extern int test_main (int argc, const char* argv[]);
+
 static const char* STR_GREET1 = "\r\nHello, UART user!\r\n--\r\n";
 
 void print(char* s) { // blinks while printnig to UART
@@ -13,22 +15,22 @@ void print(char* s) { // blinks while printnig to UART
 	HAL_UART_Transmit(&huart1, (uint8_t*) s, strlen(s), HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
 }
+void stdimpl_print(const char *string) { print(string); }
 
 void _main(void)
 {
-	char c, buf[] = "[_]";
+	uint8_t c;
 
 	print(STR_GREET1);
 
 	while ( HAL_UART_Receive(&huart1, &c, 1, 500) ) {
 		print(".");
-//		HAL_Delay(500);
 	}
-	print("\n\r");
 
 	while(1) {
-		while ( HAL_UART_Receive(&huart1, &buf[1], 1, 100) );
-		print(buf);
+		print("\n\r");
+		test_main(0, NULL);
+		HAL_Delay(5000);
 	}
 }
 /**
