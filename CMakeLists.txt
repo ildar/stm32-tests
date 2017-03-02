@@ -1,0 +1,37 @@
+set(STM32_CHIP "stm32f103c8")
+set(CMAKE_TOOLCHAIN_FILE "$ENV{HOME}/Projects/0embedded/stm32-cmake/cmake/gcc_stm32.cmake")
+set(CMAKE_MODULE_PATH "$ENV{HOME}/Projects/0embedded/stm32-cmake/cmake")
+set(TOOLCHAIN_PREFIX "$ENV{HOME}/.arduino15/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1")
+set(STM32Cube_DIR "$ENV{HOME}/.stm32cubemx/STM32Cube/Repository/STM32Cube_FW_F1_V1.4.0")
+set(CMAKE_BUILD_TYPE "Debug")
+
+PROJECT(UartTest)
+
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+ENABLE_LANGUAGE(ASM)
+
+FIND_PACKAGE(CMSIS REQUIRED)
+FIND_PACKAGE(STM32HAL COMPONENTS gpio pcd tim uart usb REQUIRED)
+
+INCLUDE_DIRECTORIES(
+	${CMAKE_CURRENT_SOURCE_DIR}/Inc
+	${CMSIS_INCLUDE_DIRS}
+	${STM32HAL_INCLUDE_DIR}
+)
+
+SET(PROJECT_SOURCES
+	Src/_main.c
+	Src/main.c
+	Src/stm32f1xx_hal_msp.c
+	Src/stm32f1xx_hal_timebase_TIM.c
+	Src/stm32f1xx_it.c
+)
+
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=${CMAKE_PROJECT_NAME}.map -specs=nano.specs")
+# set(LINK_LIBRARIES m c nosys)
+
+ADD_EXECUTABLE(${CMAKE_PROJECT_NAME} ${PROJECT_SOURCES} ${CMSIS_SOURCES} ${STM32HAL_SOURCES})
+
+STM32_SET_TARGET_PROPERTIES(${CMAKE_PROJECT_NAME})
+STM32_ADD_HEX_BIN_TARGETS(${CMAKE_PROJECT_NAME})
+
