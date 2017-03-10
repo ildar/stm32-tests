@@ -1,16 +1,19 @@
 This is the unit test runner sample program.
 
-It uses embUnit as the xUnit framework and its internal tests as the tests to
-run.
+It uses CGreen (not embUnit now)) as the xUnit framework and its sample tests
+as the test to run.
 
 Building instructions:
-1. First build the embUnit static library for the target (*):
-	make CC=$PATH_TO_TOOLCHAIN/bin/arm-none-eabi-gcc \
-		AR=$PATH_TO_TOOLCHAIN/bin/arm-none-eabi-ar \
-		LIBS="-lc -lnosys" CFLAGS="-mthumb -mcpu=cortex-m3 -specs=nano.specs -DNO_STDIO_PRINTF"
-		
-2. After that build and link the firmware with the above:
-	make BUILD_DIR=/tmp/build/
+1. First build the CGreen static library for the target (*):
+	cmake -DSTM32_CHIP=stm32f103c8 \
+	-DCMAKE_TOOLCHAIN_FILE=/path/to/stm32-cmake/cmake/gcc_stm32.cmake \
+	-DCMAKE_MODULE_PATH=/path/to/stm32-cmake/cmake \
+	-DTOOLCHAIN_PREFIX=/path/to/arm_gcc_with_newlib \
+	/path/to/cgreen/ && make
 
-(*) That gonna work with my patch found at: https://github.com/ildar/embunit
+	That wont build all of CGreen but libcgreen.a is enough.
+2. After that build and link the firmware with the above libcgreen:
+	cmake && make
 
+(*) That gonna work with my port of CGreen found at:
+	https://github.com/ildar/cgreen/tree/embedded
