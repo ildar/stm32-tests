@@ -29,21 +29,13 @@ SET(PROJECT_SOURCES
 	Src/stm32f1xx_hal_msp.c
 	Src/stm32f1xx_hal_timebase_TIM.c
 	Src/stm32f1xx_it.c
-	Src/AllTests.c
-	Src/assertTest.c
-	Src/MockTestCase.c
-	Src/MockTestCase.h
-	Src/RepeatedTestTest.c
-	Src/stdImplTest.c
-	Src/TestCallerTest.c
-	Src/TestCaseTest.c
-	Src/TestResultTest.c
+	Src/sample.c
 )
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=${CMAKE_PROJECT_NAME}.map -specs=nano.specs")
 
 ADD_EXECUTABLE(${CMAKE_PROJECT_NAME}.elf ${PROJECT_SOURCES} ${CMSIS_SOURCES} ${STM32HAL_SOURCES})
-target_link_libraries(${CMAKE_PROJECT_NAME}.elf embUnit)
+target_link_libraries(${CMAKE_PROJECT_NAME}.elf cgreen m c nosys)
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME}.elf
 	POST_BUILD
 	COMMAND ${CMAKE_SIZE} ${CMAKE_PROJECT_NAME}.elf)
