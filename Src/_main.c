@@ -29,6 +29,8 @@ void _main(void)
 	while(1) {
 		while ( HAL_UART_Receive(&huart1, &buf[1], 1, 100) );
 		print(buf);
+		if(buf[1]=='}')
+			HAL_NVIC_SystemReset();
 	}
 }
 /**
