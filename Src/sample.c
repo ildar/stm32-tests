@@ -126,7 +126,7 @@ TestSuite *isolation_tests() {
     TestSuite *suite = create_test_suite();
     add_test(suite, create_test_interference);
     add_test(suite, prove_there_is_no_test_interference);
-    add_test(suite, seg_fault);
+//    add_test(suite, seg_fault);
     return suite;
 }
 

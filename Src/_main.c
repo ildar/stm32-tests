@@ -36,7 +36,9 @@ void _main(void)
 	while(1) {
 		printf("\n\r");
 		test_main(0, NULL);
-		HAL_Delay(5000);
+		HAL_UART_Receive(&huart1, &c, 1, 5000);
+		if(c=='}')
+			HAL_NVIC_SystemReset();
 	}
 }
 /**
