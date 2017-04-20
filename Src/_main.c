@@ -14,9 +14,12 @@ void print(const char* s) { // blinks while printnig to UART
 	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
 }
 
+extern uint32_t rust_fn1(uint32_t);
+
 void _main(void)
 {
-	char c, buf[] = "[_]";
+	char c, buf[] = { '\r', '_', '\0' } ;
+	uint32_t i=0;
 
 	print(STR_GREET1);
 
@@ -27,9 +30,10 @@ void _main(void)
 	print("\n\r");
 
 	while(1) {
-		while ( HAL_UART_Receive(&huart1, (uint8_t*) &buf[1], 1, 100) );
+		while ( HAL_UART_Receive(&huart1, (uint8_t*) &c, 1, 100) );
+		buf[1] = c+rust_fn1(i++);
 		print(buf);
-		if(buf[1]=='}')
+		if(c=='}')
 			HAL_NVIC_SystemReset();
 	}
 }

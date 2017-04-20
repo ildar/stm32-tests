@@ -27,9 +27,13 @@ SET(PROJECT_SOURCES
 	Src/stm32f1xx_it.c
 )
 
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=${CMAKE_PROJECT_NAME}.map -specs=nano.specs")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=${CMAKE_PROJECT_NAME}.map -specs=nano.specs -L.")
 
 ADD_EXECUTABLE(${CMAKE_PROJECT_NAME}.elf ${PROJECT_SOURCES} ${CMSIS_SOURCES} ${STM32HAL_SOURCES})
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME}.elf
+	PRE_LINK
+	COMMAND rustc -C opt-level=2 -Z no-landing-pads --target thumbv7m-none-eabi -g ${CMAKE_CURRENT_SOURCE_DIR}/Src/fn.rs)
+target_link_libraries(${CMAKE_PROJECT_NAME}.elf fn nosys)
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME}.elf
 	POST_BUILD
 	COMMAND make ${CMAKE_PROJECT_NAME}.elf.hex)
